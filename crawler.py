@@ -124,9 +124,7 @@ def ReadAsin():
         json.dump(extracted_data, f, indent=4)
 
 
-
 def telegram_bot():
-
     @bot.message_handler(commands=['add'])
     def send_welcome(message):
         global AsinList
@@ -201,14 +199,13 @@ def telegram_bot():
                 str = ''
                 for data in data_json:
                     str += '''Nombre: {0}
-                     Precio: {1}
-                     {2}
+Precio: {1}
+{2}
 
-                     '''.format(data_json[data]['NAME'], data_json[data]['SALE_PRICE'], data_json[data]['URL'])
+'''.format(data_json[data]['NAME'], data_json[data]['SALE_PRICE'], data_json[data]['URL'])
                 bot.reply_to(message, str)
         except Exception as e:
             print(e)
-
 
     bot.polling()
 
