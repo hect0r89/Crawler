@@ -45,6 +45,10 @@ def AmzonParser(url):
             if not ORIGINAL_PRICE:
                 ORIGINAL_PRICE = SALE_PRICE
 
+            if not SALE_PRICE:
+                f = open(url[22:35] + '.html', 'w')
+                f.write(page.text)
+
             if page.status_code != 200:
                 raise ValueError('captha')
             data = {
@@ -122,6 +126,8 @@ def ReadAsin():
     if (not file_created and AsinList) or changes:
         f = open('data.json', 'w')
         json.dump(extracted_data, f, indent=4)
+
+    threading.Timer(300, ReadAsin).start()
 
 
 def telegram_bot():
@@ -228,6 +234,4 @@ if __name__ == "__main__":
     t = threading.Thread(target=telegram_bot)
     t.setDaemon(True)
     t.start()
-    while True:
-        ReadAsin()
-        sleep(1800)
+    ReadAsin()
